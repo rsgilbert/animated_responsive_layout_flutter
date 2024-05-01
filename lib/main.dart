@@ -1,10 +1,12 @@
 import 'package:animated_responsive_layout/animations.dart';
 import 'package:animated_responsive_layout/destinations.dart';
 import 'package:animated_responsive_layout/models/models.dart';
+import 'package:animated_responsive_layout/transitions/list_detail_transition.dart';
 import 'package:animated_responsive_layout/widgets/animated_floating_action.button.dart';
 import 'package:animated_responsive_layout/widgets/disappearing_bottom_navigation_bar.dart';
 import 'package:animated_responsive_layout/widgets/disappearing_navigation_rail.dart';
 import 'package:animated_responsive_layout/widgets/email_list_view.dart';
+import 'package:animated_responsive_layout/widgets/reply_list_view.dart';
 import 'package:flutter/material.dart';
 import './models/data.dart' as data;
 
@@ -97,17 +99,20 @@ class _FeedState extends State<Feed> with SingleTickerProviderStateMixin {
                     }),
                 Expanded(
                   child: Container(
-                    color: _backgroundColor,
-                    child: EmailListView(
-                      currentUser: widget.currentUser,
-                      selectedIndex: selectedIndex,
-                      onSelected: (index) {
-                        setState(() {
-                          selectedIndex = index;
-                        });
-                      },
-                    ),
-                  ),
+                      color: _backgroundColor,
+                      child: ListDetailTransition(
+                        animation: _railAnimation,
+                        one: EmailListView(
+                          currentUser: widget.currentUser,
+                          selectedIndex: selectedIndex,
+                          onSelected: (index) {
+                            setState(() {
+                              selectedIndex = index;
+                            });
+                          },
+                        ),
+                        two: const ReplyListView(),
+                      )),
                 )
               ],
             ),
