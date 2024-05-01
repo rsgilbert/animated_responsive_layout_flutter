@@ -1,3 +1,4 @@
+import 'package:animated_responsive_layout/destinations.dart';
 import 'package:animated_responsive_layout/models/models.dart';
 import 'package:animated_responsive_layout/widgets/email_list_view.dart';
 import 'package:flutter/material.dart';
@@ -37,6 +38,7 @@ class _FeedState extends State<Feed> {
   late final _colorScheme = Theme.of(context).colorScheme;
   late final _backgroundColor = Color.alphaBlend(_colorScheme.primary.withOpacity(0.14), _colorScheme.surface);
 
+  int selectedIndex = 0;
 
   @override 
   Widget build(BuildContext context) {
@@ -45,6 +47,12 @@ class _FeedState extends State<Feed> {
         color: _backgroundColor,
         child: EmailListView( 
           currentUser: widget.currentUser,
+          selectedIndex: selectedIndex,
+          onSelected: (index) {
+            setState(() {
+              selectedIndex = index;
+            });
+          },
         ),
       ),
       floatingActionButton: FloatingActionButton( 
@@ -52,6 +60,19 @@ class _FeedState extends State<Feed> {
         foregroundColor: _colorScheme.onTertiaryContainer,
         onPressed: () {},
         child: const Icon(Icons.add),
+      ),
+      bottomNavigationBar: NavigationBar( 
+        elevation: 0,
+        backgroundColor: Colors.white,
+        destinations: destinations.map<NavigationDestination>((d) {
+          return NavigationDestination(icon: Icon(d.icon), label: d.label);
+        } ).toList(),
+        selectedIndex: selectedIndex,
+        onDestinationSelected: (index) {
+          setState(() {
+            selectedIndex = index;
+          });
+        },
       ),
     );
   }
