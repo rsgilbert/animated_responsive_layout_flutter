@@ -1,4 +1,5 @@
 import 'package:animated_responsive_layout/models/models.dart';
+import 'package:animated_responsive_layout/widgets/star_button.dart';
 import 'package:flutter/material.dart';
 
 enum EmailType { preview, threaded, primaryThreaded }
@@ -248,11 +249,73 @@ class _EmailHeadlineState extends State<EmailHeadline> {
                 ),
                 // Display a condensed version if the widgets in the row are expected to overflow
                 if(constraints.maxWidth - 200 > 0) ... [
-                  // stopped here
+                  SizedBox(
+                    height: 40, 
+                    width: 40, 
+                  child: FloatingActionButton(onPressed: (){ 
+
+                  },
+                  elevation: 0,
+                  backgroundColor: _colorScheme.surface,
+                  child: const Icon(Icons.delete_outline)
+                  )
+                  ),
+                  const Padding(padding: EdgeInsets.only(right: 8)),
+                  SizedBox( 
+                    height: 40,
+                    width: 40,
+                    child: FloatingActionButton( 
+                      onPressed: (){},
+                      elevation: 0,
+                      backgroundColor: _colorScheme.surface,
+                      child: const Icon(Icons.more_vert),
+                    ),
+                  )
+                   
                 ]
               ],
             )),
       );
     }));
+  }
+}
+
+
+class EmailReplyOptions extends StatefulWidget {
+  const EmailReplyOptions({ super.key });
+
+  @override 
+  State<EmailReplyOptions> createState() => _EmailReplyOptionsState();
+}
+
+
+class _EmailReplyOptionsState extends State<EmailReplyOptions> {
+  late final ColorScheme _colorScheme = Theme.of(context).colorScheme;
+
+  @override 
+  Widget build(BuildContext context) {
+    return LayoutBuilder(builder: (context, constraints) {
+      if(constraints.maxWidth < 100) {
+        return const SizedBox.shrink();
+      }
+      return Row(
+         children: [ 
+          Expanded(child: TextButton( 
+            style: ButtonStyle(backgroundColor: MaterialStateProperty.all(_colorScheme.onInverseSurface),),
+            onPressed: (){},
+            child: Text('Reply', style: TextStyle(color: _colorScheme.onSurfaceVariant),),
+          )),
+          const SizedBox(width: 8),
+          Expanded(
+            child: TextButton(
+              style: ButtonStyle(backgroundColor: MaterialStateProperty.all(_colorScheme.onInverseSurface)),
+              onPressed: (){},
+              child: Text('Reply All', style: TextStyle(color: _colorScheme.onSurfaceVariant),),
+              )
+
+          )
+         ],
+      );
+    });
   }
 }
